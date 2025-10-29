@@ -10,37 +10,115 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;700&family=Hind:wght@400;500;700&display=swap" rel="stylesheet" />
+
     <title>React App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;700&family=Hind:wght@400;500;700&display=swap" rel="stylesheet">
-
-
+    <!-- Pre-React Route Protection: Blocks engineers from interior dashboard BEFORE React loads -->
+    <script>
+      (function() {
+        // This runs IMMEDIATELY when the page loads, before React mounts
+        console.log("🔍 Pre-React Route Protection: Checking current path");
+        const currentPath = window.location.pathname;
+        
+        // Only check if accessing interior dashboard
+        if (currentPath === "/interior-dashboard" || currentPath.startsWith("/interior-dashboard")) {
+          console.log("🚨 Accessing /interior-dashboard - Checking role BEFORE React loads");
+          
+          try {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+              const userData = JSON.parse(savedUser);
+              const userRole = userData?.role;
+              
+              console.log("🔍 Pre-React Check - Role:", userRole, "User data:", userData);
+              
+              // Block engineers immediately
+              if (userRole === "engineer") {
+                console.log("🚫🚫🚫 Pre-React: Engineer BLOCKED - FORCING redirect to /engineer-dashboard");
+                window.location.replace("/engineer-dashboard");
+                return;
+              }
+              
+              // Block admins
+              if (userRole === "admin") {
+                console.log("🚫 Pre-React: Admin BLOCKED - redirecting to /admin-dashboard");
+                window.location.replace("/admin-dashboard");
+                return;
+              }
+              
+              // Block customers
+              if (userRole === "customer") {
+                console.log("🚫 Pre-React: Customer BLOCKED - redirecting to /customer-dashboard");
+                window.location.replace("/customer-dashboard");
+                return;
+              }
+              
+              // Only allow interior designers
+              if (userRole && userRole !== "interiorDesigner" && userRole !== "interior") {
+                console.log("🚫 Pre-React: Role '" + userRole + "' BLOCKED - redirecting to home");
+                window.location.replace("/");
+                return;
+              }
+              
+              console.log("✅ Pre-React: User is an interior designer - allowing access");
+            } else {
+              console.log("🚫 Pre-React: No user logged in - redirecting to /auth");
+              window.location.replace("/auth");
+            }
+          } catch (error) {
+            console.error("❌ Pre-React: Error checking role:", error);
+          }
+        }
+        
+        // Also intercept navigation events
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        
+        function checkRouteAndRedirect(path) {
+          if (path && (path === "/interior-dashboard" || path.startsWith("/interior-dashboard"))) {
+            try {
+              const savedUser = localStorage.getItem('user');
+              if (savedUser) {
+                const userData = JSON.parse(savedUser);
+                const userRole = userData?.role;
+                
+                if (userRole === "engineer") {
+                  console.log("🚫 Intercepted navigation to /interior-dashboard - Engineer blocked");
+                  window.location.replace("/engineer-dashboard");
+                  return true; // Prevent navigation
+                }
+              }
+            } catch (e) {
+              console.error("Error in navigation check:", e);
+            }
+          }
+          return false;
+        }
+        
+        history.pushState = function() {
+          if (!checkRouteAndRedirect(arguments[2])) {
+            originalPushState.apply(history, arguments);
+          }
+        };
+        
+        history.replaceState = function() {
+          if (!checkRouteAndRedirect(arguments[2])) {
+            originalReplaceState.apply(history, arguments);
+          }
+        };
+        
+        window.addEventListener("popstate", function() {
+          checkRouteAndRedirect(window.location.pathname);
+        });
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
+

@@ -1,354 +1,342 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "./HeroSection.css";
 
 export default function HeroSection() {
   const navigate = useNavigate();
-  const title = "Turning Visions Into Living Spaces".split("");
-
-  const containerVariants = {
-    hidden: { opacity: 0, scale: 0.5, rotate: -10 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotate: 0,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.09,
-        duration: 1.5,
-        ease: [0.68, -0.55, 0.27, 1.55],
-      },
-    },
-  };
-
-  const letterVariants = {
-    hidden: { opacity: 0, scale: 0, rotateY: 90, rotateZ: -30 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotateY: 0,
-      rotateZ: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.68, -0.55, 0.27, 1.55],
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, x: 100 },
-    visible: (i) => ({
-      opacity: 1,
-      x: 0,
-      transition: {
-        delay: 2 + i * 0.3,
-        type: "spring",
-        stiffness: 60,
-      },
-    }),
-  };
-
-  const handleClick = (role) => {
-    if (role === "Architect") navigate("/architect-signup");
-    if (role === "Interior Designer") navigate("/interiordesigner-signup");
-    if (role === "Homeowner") navigate("/signup");
-  };
 
   return (
     <>
       <div className="hero-container">
         {/* Header */}
-        <header className="overlay-header">
-          <div
-            className="logo-container"
-            onClick={() => window.location.reload()}
-          >
-            <img
-              src="dreamdwell logo.png"
-              alt="DreamDwell Logo"
-              className="logo-image"
-            />
+        <header className="hero-header">
+          <div className="header-left">
+            <div className="logo-icon">🔨</div>
+            <span className="logo-text">DreamDwell</span>
+          </div>
+          
+          <nav className="header-nav">
+            <a href="#home">Home</a>
+            <a href="#about">About us</a>
+            <a href="#services">Services</a>
+            <a href="#pricing">Price</a>
+            <a href="#blog">Blog</a>
+          </nav>
+          
+          <div className="header-right">
+            <a href="#cart" className="cart-link">Cart(0)</a>
+            <button className="contact-btn">Contact us</button>
           </div>
         </header>
 
-        {/* Background Video */}
-        <video autoPlay loop muted playsInline className="hero-video">
-          <source src="homepage4.mp4" type="video/mp4" />
-          Your browser does not support HTML5 video.
-        </video>
-        <div className="hero-overlay"></div>
+        {/* Background Image */}
+        <div className="hero-background-video">
+          <img src="/Civil engineer and construction worker manager holding digital tablet and blueprints talking and planing about construction site cooperation teamwork concept _ Free Photo.jpeg" alt="Background" className="hero-background-image" />
+          <div className="hero-video-overlay"></div>
+        </div>
 
-        {/* Content */}
-        <div className="hero-content">
-          <motion.h1
-            className="hero-title"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {title.map((char, index) => (
-              <motion.span
-                key={index}
-                variants={letterVariants}
-                style={{ display: "inline-block", whiteSpace: "pre" }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-          </motion.h1>
+        {/* Hero Content */}
+        <div className="hero-main">
+          {/* Left Side - Text Content */}
+          <div className="hero-left">
+            <div className="hero-text-content">
+              <h1 className="hero-heading">
+                Building your vision<br />
+                with unmatched<br />
+                precision
+              </h1>
+              <p className="hero-description">
+                Praesent amet diam nunc diam diam vel. Duis diam massa sapien pellentesque et sapien mauris. Lectus porttitor id ipsum dictum enim.
+              </p>
+              <button className="get-started-btn" onClick={() => navigate("/signup")}>Get Started</button>
+            </div>
+          </div>
+        </div>
 
-          {/* ✅ Tagline */}
-          <motion.h2
-            className="hero-tagline"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-          >
-            Smart, home design Powered by AI
-          </motion.h2>
+        {/* Background Buildings */}
+        <div className="background-buildings"></div>
+      </div>
 
-          <motion.p
-            className="hero-subtitle"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2, duration: 0.8 }}
-          >
-            Choose Your Role.
-              </motion.p>
-         <motion.p
-  className="hero-subtitle"
-  initial={{ opacity: 0, y: -20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 2, duration: 0.8 }}
->
-  Free to start. Pro features requires payement starts at 299
-</motion.p>
-         
-  
-          {/* Cards */}
-          <div className="hero-cards">
-            {[
-              {
-                img: "architect (3).jpg",
-                label: "Architect",
-                desc: "Plan and design homes with ease.",
-              },
-              {
-                img: "interiordesigner.jpg",
-                label: "Interior Designer",
-                desc: "Create stunning interiors in minutes.",
-              },
-              {
-                img: "homeowner (3).jpg",
-                label: "Homeowner",
-                desc: "Visualize your dream home instantly.",
-              },
-            ].map((card, i) => (
-              <motion.div
-                key={i}
-                className="hero-card"
-                onClick={() => handleClick(card.label)}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 35px rgba(0, 0, 0, 0.65)",
-                }}
-              >
-                {/* Background Image */}
-                <img
-                  src={card.img}
-                  alt={card.label}
-                  className="hero-card-bg"
+      {/* About Section */}
+      <section className="about-section">
+        <div className="about-container">
+          {/* Left Side */}
+          <div className="about-left">
+            <h2 className="about-heading">Dedicated to innovation in construction solutions</h2>
+            <div className="about-image-wrapper">
+              <img 
+                src="/const1.jpg" 
+                alt="Construction Team" 
+                className="about-image"
+              />
+            </div>
+          </div>
+
+          {/* Right Side */}
+          <div className="about-right">
+            <button className="more-about-btn">More about</button>
+            
+            <div className="about-description">
+              <p>
+                At DreamDwell, we combine cutting-edge technology with construction expertise to deliver exceptional results. Our innovative approach transforms how construction projects are planned, executed, and managed.
+              </p>
+              <p>
+                We leverage advanced AI, 3D visualization, and smart project management tools to ensure every project meets the highest standards of quality, efficiency, and sustainability.
+              </p>
+            </div>
+
+            {/* Statistics */}
+            <div className="about-stats">
+              <div className="stat-item">
+                <span className="stat-number">400+</span>
+                <span className="stat-label">Successful projects</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">15+</span>
+                <span className="stat-label">Years of experience</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">200+</span>
+                <span className="stat-label">Expert team members</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="services-section">
+        <div className="services-header">
+          <h2 className="services-title">Cele mai bune servicii de Proiectare și asistență documentară de la Proiectari_md in Moldova</h2>
+          <button className="view-all-btn">View All services</button>
+        </div>
+
+        <div className="services-grid">
+          <div className="service-card">
+            <div className="service-image-wrapper">
+              <img 
+                src="/Cele mai bune servicii de Proiectare și asistență documentară de la Proiectari_md in Moldova_.jpeg" 
+                alt="Project Management Services" 
+                className="service-image"
+              />
+            </div>
+            <h3 className="service-card-title">Project Management Services</h3>
+          </div>
+
+          <div className="service-card">
+            <div className="service-image-wrapper">
+              <img 
+                src="/18 Items Every Architect Should Have In His Office.jpeg" 
+                alt="Design and Planning" 
+                className="service-image"
+              />
+            </div>
+            <h3 className="service-card-title">Design and Planning</h3>
+          </div>
+
+          <div className="service-card">
+            <div className="service-image-wrapper">
+              <img 
+                src="/download.jpeg" 
+                alt="Commercial Building Solutions" 
+                className="service-image"
+              />
+            </div>
+            <h3 className="service-card-title">Commercial Building Solutions</h3>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section className="projects-section">
+        <div className="projects-header">
+          <h2 className="projects-title">Showcasing our most recent projects.</h2>
+          <button className="view-all-projects-btn">View all project</button>
+        </div>
+
+        <div className="projects-grid">
+          <div className="project-card">
+            <div className="project-image-wrapper">
+              <img 
+                src="/Project Adjacent to Highways Attracting Mumbai Homebuyers.jpeg" 
+                alt="Urban Oasis Apartments" 
+                className="project-image"
+              />
+            </div>
+            <div className="project-content">
+              <p className="project-date">Completed at Jul 14, 2022</p>
+              <h3 className="project-title">Urban Oasis Apartments</h3>
+              <p className="project-description">
+                Transforming urban living with modern architecture and sustainable design practices.
+              </p>
+              <a href="#project" className="project-link">Click here →</a>
+            </div>
+          </div>
+
+          <div className="project-card">
+            <div className="project-image-wrapper">
+              <img 
+                src="/Alibaba Industrial Park - Ginsun CG.jpeg" 
+                alt="Riverside Business Complex" 
+                className="project-image"
+              />
+            </div>
+            <div className="project-content">
+              <p className="project-date">Completed at Jun 22, 2023</p>
+              <h3 className="project-title">Riverside Business Complex</h3>
+              <p className="project-description">
+                A state-of-the-art commercial facility designed to foster innovation.
+              </p>
+              <a href="#project" className="project-link">Click here →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Banner Section */}
+      <section className="cta-banner-section">
+        <div className="cta-banner-container">
+          <div className="cta-left">
+            <div className="cta-content">
+              <h2 className="cta-heading">
+                Get started on your<br />
+                project today.
+              </h2>
+              <button className="cta-button">Contact us</button>
+              <div className="cta-icon"></div>
+            </div>
+          </div>
+
+          <div className="cta-right">
+            <img 
+              src="/footerabove2.jpg" 
+              alt="Modern Buildings" 
+              className="cta-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="testimonial-section">
+        <div className="testimonial-container">
+          <div className="testimonial-image-wrapper">
+            <div className="testimonial-image-bg"></div>
+            <img 
+              src="/30s businesswoman in white background _ Premium AI-generated PSD.jpeg" 
+              alt="Happy Client" 
+              className="testimonial-image"
+            />
+          </div>
+
+          <div className="testimonial-content">
+            <h2 className="testimonial-title">Trusted feedback from our happy clients.</h2>
+            <p className="testimonial-text">
+              "Preserving the charm of our historic home while adding modern amenities was no easy feat, but DreamDwell Construction handled it with grace. Their attention to detail and respect for the home's heritage were evident throughout the project. We're thrilled with the results."
+            </p>
+            
+            <div className="star-rating">
+              <span className="star filled">★</span>
+              <span className="star filled">★</span>
+              <span className="star filled">★</span>
+              <span className="star filled">★</span>
+              <span className="star">☆</span>
+            </div>
+
+            <div className="testimonial-footer">
+              <div className="client-info">
+                <h3 className="client-name">Wade Warren</h3>
+                <p className="client-title">Department head</p>
+              </div>
+              <div className="testimonial-nav">
+                <button className="nav-arrow prev">←</button>
+                <button className="nav-arrow next">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="footer-section">
+        <div className="footer-container">
+          <div className="footer-top">
+            <div className="footer-column">
+              <div className="footer-logo">
+                <span className="footer-logo-icon">🔨</span>
+                <span className="footer-logo-text">DreamDwell</span>
+              </div>
+              <p className="footer-description">
+                Transforming construction with innovative solutions and expert craftsmanship for your dream projects.
+              </p>
+              <div className="footer-map-wrapper">
+                <img 
+                  src="/footerabove2.jpg" 
+                  alt="Location Map" 
+                  className="footer-map"
                 />
+              </div>
+              <p className="footer-address">
+                2972 Westheimer Rd. Santa Ana, Illinois 85486
+              </p>
+            </div>
 
-                {/* Overlay Content */}
-                <div className="hero-card-content">
-                  <h3>{card.label}</h3>
-                  <p>{card.desc}</p>
-                  <button
-                    className="get-started-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClick(card.label);
-                    }}
-                  >
-                    Get Started
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+            <div className="footer-column">
+              <h4 className="footer-heading">Main page</h4>
+              <ul className="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#team-details">Team details</a></li>
+                <li><a href="#price">Price</a></li>
+              </ul>
+            </div>
 
-      <div className="gradient-divider-glow"></div>
+            <div className="footer-column">
+              <h4 className="footer-heading">Inner page</h4>
+              <ul className="footer-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#services-details">Services details</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#blog-details">Blog details</a></li>
+                <li><a href="#project">Project</a></li>
+                <li><a href="#project-details">Project details</a></li>
+              </ul>
+            </div>
 
-      {/* 🔽 Netflix-style Straight Divider */}
-      <div className="reasons-section">
-        <h3 className="reasons-title">Reasons to get started</h3>
-
-        <div className="features-cards-wrapper">
-          {/* Card 1 */}
-          <div className="feature-card">
-            <img
-              src="reason 1 (2).png"
-              alt="3D Experience"
-              className="feature-card-img"
-            />
-            <div className="feature-card-content">
-              <h3>Live House Build</h3>
-              <p>Explore interactive 3D views instead of static images. Experience house getting constructed lively by AI</p>
+            <div className="footer-column">
+              <h4 className="footer-heading">Utility page</h4>
+              <ul className="footer-links">
+                <li><a href="#style-guide">Style guide</a></li>
+                <li><a href="#licenses">Licenses</a></li>
+                <li><a href="#404">404 page</a></li>
+                <li><a href="#password">Password protected</a></li>
+                <li><a href="#changelog">Change Log</a></li>
+              </ul>
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="feature-card">
-            <img
-              src="reason 2.png"
-              alt="Professional Views"
-              className="feature-card-img"
-            />
-            <div className="feature-card-content">
-              <h3>Professional views</h3>
-              <p>Get automatic elevations and sectional drawings instantly.</p>
+          <div className="footer-bottom">
+            <div className="footer-bottom-left">
+              <button className="footer-click-btn">Click here →</button>
+              <span className="footer-powered-by">Powered by webflow</span>
+              <span className="footer-designed-by">Design by webocen</span>
             </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="feature-card">
-            <img
-              src="reason 3.jpg"
-              alt="Customize Interiors"
-              className="feature-card-img"
-            />
-            <div className="feature-card-content">
-              <h3>Customize interiors</h3>
-              <p>Try modular kitchens, ceilings, and interiors with one click.</p>
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="feature-card">
-            <img
-              src="reason 4.jpg"
-              alt="Sunlight & Airflow"
-              className="feature-card-img"
-            />
-            <div className="feature-card-content">
-              <h3>Sunlight & airflow</h3>
-              <p>Simulate natural light and comfort before construction.</p>
+            <div className="footer-bottom-right">
+              <div className="footer-social">
+                <button className="social-icon">f</button>
+                <button className="social-icon">📷</button>
+                <button className="social-icon">in</button>
+              </div>
+              <div className="footer-webflow-badge">
+                <img src="/webflow-logo.png" alt="Webflow" className="webflow-logo" />
+                <span>Made in Webflow</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="how-it-works-section">
-        <h2 className="how-title">How It Works – For Each User</h2>
-
-        <div className="section-wrapper">
-          <div className="accordion">
-            {/* Architect */}
-            <details>
-              <summary>
-                <span>👷 Architect</span>
-              </summary>
-              <div className="accordion-card">
-                <h4>Steps for Architect</h4>
-                <div className="step-card">
-                  Step 1: Upload plot/sketch or client's rough plan
-                </div>
-                <div className="step-card">
-                  Step 2: AI generates optimized floor plans, elevations & 3D
-                  models
-                </div>
-                <div className="step-card">
-                  Step 3: Refine layouts, add structural details, and adjust
-                  materials
-                </div>
-                <div className="step-card">
-                  Step 4: Share interactive 3D/AR views with clients for
-                  approvals
-                </div>
-                <button className="show-demo-btn">Show Demo</button>
-              </div>
-            </details>
-
-            {/* Interior Designer */}
-            <details>
-              <summary>
-                <span>🎨 Interior Designer</span>
-              </summary>
-              <div className="accordion-card">
-                <h4>Steps for Interior Designer</h4>
-                <div className="step-card">
-                  Step 1: Import AI-generated floor plan or 3D model
-                </div>
-                <div className="step-card">
-                  Step 2: Customize interiors – furniture, lighting, textures,
-                  false ceilings
-                </div>
-                <div className="step-card">
-                  Step 3: Simulate sunlight, airflow & mood lighting for
-                  realism
-                </div>
-                <div className="step-card">
-                  Step 4: Export design concepts or share AR walkthroughs with
-                  clients
-                </div>
-                <button className="show-demo-btn">Show Demo</button>
-              </div>
-            </details>
-
-            {/* Homeowner */}
-            <details>
-              <summary>
-                <span>🏡 Homeowner</span>
-              </summary>
-              <div className="accordion-card">
-                <h4>Steps for Homeowner</h4>
-                <div className="step-card">
-                  Step 1: Upload plot/sketch or describe requirements via
-                  voice
-                </div>
-                <div className="step-card">
-                  Step 2: AI generates floor plan & 3D model automatically
-                </div>
-                <div className="step-card">
-                  Step 3: Personalize interiors with drag-and-drop (kitchen,
-                  walls, furniture)
-                </div>
-                <div className="step-card">
-                  Step 4: Visualize home in AR & share design ideas with
-                  family/friends
-                </div>
-                <button className="show-demo-btn">Show Demo</button>
-              </div>
-            </details>
-          </div>
-        </div>
-  {/* Footer Links Section */}
-{/* Divider after Homeowner */}
-<hr className="footer-divider" />
-
-{/* Footer Links Section */}
-<section className="footer-links-section">
-  <div className="footer-links">
-    <a href="/faq">FAQ</a>
-    <a href="/privacy">Privacy</a>
-    <a href="/speed-test">Speed Test</a>
-  </div>
-</section>
-
-    </section>
-
-
-
-
+      </footer>
     </>
   );
 }

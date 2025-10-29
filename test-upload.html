@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Floor Plan Upload</title>
+</head>
+<body>
+    <h1>Test Floor Plan Upload</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="floorplan" accept=".jpg,.jpeg,.png" required>
+        <button type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                resultDiv.textContent = 'Uploading...';
+                
+                const response = await fetch('http://localhost:5000/api/smart-recognition', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                resultDiv.textContent = 'Response: ' + JSON.stringify(data);
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

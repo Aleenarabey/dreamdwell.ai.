@@ -124,8 +124,16 @@ export default function Account() {
 
   const validateProfile = () => {
     const errs = {};
-    if (!profile.firstName?.trim()) errs.firstName = "First name is required";
-    if (!profile.lastName?.trim()) errs.lastName = "Last name is required";
+    if (!profile.firstName?.trim()) {
+      errs.firstName = "First name is required";
+    } else if (profile.firstName.trim().length < 2) {
+      errs.firstName = "First name must be at least 2 characters long";
+    }
+    if (!profile.lastName?.trim()) {
+      errs.lastName = "Last name is required";
+    } else if (profile.lastName.trim().length < 2) {
+      errs.lastName = "Last name must be at least 2 characters long";
+    }
     if (profile.state === states[0]) errs.state = "Please select a state";
     return errs;
   };

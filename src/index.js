@@ -11,8 +11,11 @@ window.CESIUM_BASE_URL = "/cesium";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// Get Google Client ID from environment variable or use default
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || "739733184031-f4sq593qqdt01tlivnhe6rr1s3lsm5jn.apps.googleusercontent.com";
+
 root.render(
-  <GoogleOAuthProvider clientId="739733184031-f4sq593qqdt01tlivnhe6rr1s3lsm5jn.apps.googleusercontent.com"> {/* 👈 Replace with your actual client ID */}
+  <GoogleOAuthProvider clientId={googleClientId}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
