@@ -22,6 +22,21 @@ const getIo = (req) => {
   return req.app.get('io');
 };
 
+// 🏠 Engineer API Root
+router.get('/', verifyEngineer, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Engineer API root is working',
+    availableRoutes: [
+      '/dashboard',
+      '/projects',
+      '/projects/:id',
+      '/projects/:projectId/milestones/:milestoneId',
+      '/materials'
+    ]
+  });
+});
+
 // 🔍 Get Engineer Dashboard Data
 router.get('/dashboard', verifyEngineer, async (req, res) => {
   try {
