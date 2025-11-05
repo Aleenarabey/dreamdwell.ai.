@@ -133,9 +133,19 @@ export default function AdminLayout() {
 
   const getUserName = () => {
     // For admin users, always show "Admin" as the display name
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        if (userData?.role === 'admin') {
+          return "Admin";
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
     if (user?.role === 'admin') {
-      // If admin has a custom username set, use it, otherwise default to "Admin"
-      return user?.username || "Admin";
+      return "Admin";
     }
     
     // For non-admin users, use their actual name

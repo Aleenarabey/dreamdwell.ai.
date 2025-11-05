@@ -1,0 +1,204 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 5,
+    "passes": 4,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-10-30T22:28:30.022Z",
+    "end": "2025-10-30T22:28:31.097Z",
+    "duration": 1075,
+    "testsRegistered": 5,
+    "passPercent": 80,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "01ac210b-57ab-4ba9-9721-d4414189513b",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3f9dbe4a-0960-47e7-9cfb-0cadcfb48801",
+          "title": "Backend API Tests",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\backend-api.test.js",
+          "file": "\\tests\\e2e\\backend-api.test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Backend server is running and accessible",
+              "fullTitle": "Backend API Tests Backend server is running and accessible",
+              "timedOut": false,
+              "duration": 794,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/finance/overview`);\n  expect(response.status).to.equal(200);\n  console.log('✅ Backend is accessible at', BACKEND_URL);\n} catch (error) {\n  if (error.code === 'ECONNREFUSED') {\n    throw new Error(`❌ Backend not running at ${BACKEND_URL}. Please start the backend server.`);\n  }\n  // 200 or 500 is fine, means server is up\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Backend is accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "cdb72b3a-c126-433e-bbf0-8fccd1a969a1",
+              "parentUUID": "3f9dbe4a-0960-47e7-9cfb-0cadcfb48801",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Workers API endpoint is accessible",
+              "fullTitle": "Backend API Tests Workers API endpoint is accessible",
+              "timedOut": false,
+              "duration": 140,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/workers`);\n  expect([200, 500]).to.include(response.status);\n  console.log('✅ Workers API accessible');\n} catch (error) {\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Workers API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "36d0a44a-b337-45ba-b406-a5d26d9f1c1c",
+              "parentUUID": "3f9dbe4a-0960-47e7-9cfb-0cadcfb48801",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Suppliers API endpoint is accessible",
+              "fullTitle": "Backend API Tests Suppliers API endpoint is accessible",
+              "timedOut": false,
+              "duration": 67,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/suppliers`);\n  expect([200, 500]).to.include(response.status);\n  console.log('✅ Suppliers API accessible');\n} catch (error) {\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Suppliers API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "eba15c2a-fff5-4928-a5f8-02c89451d99d",
+              "parentUUID": "3f9dbe4a-0960-47e7-9cfb-0cadcfb48801",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ML Finance status endpoint is accessible",
+              "fullTitle": "Backend API Tests ML Finance status endpoint is accessible",
+              "timedOut": false,
+              "duration": 14,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/ml-finance/status`);\n  expect([200, 500, 503]).to.include(response.status);\n  console.log('✅ ML Finance API accessible');\n} catch (error) {\n  expect([200, 500, 503]).to.include(error.response?.status || 0);\n  console.log('✅ ML Finance API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {
+                "message": "AssertionError: expected [ 200, 500, 503 ] to include 404",
+                "estack": "AssertionError: expected [ 200, 500, 503 ] to include 404\n    at Context.<anonymous> (tests\\e2e\\backend-api.test.js:53:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": null
+              },
+              "uuid": "36c296ab-9295-47b0-b271-1f4e49947cc2",
+              "parentUUID": "3f9dbe4a-0960-47e7-9cfb-0cadcfb48801",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cdb72b3a-c126-433e-bbf0-8fccd1a969a1",
+            "36d0a44a-b337-45ba-b406-a5d26d9f1c1c",
+            "eba15c2a-fff5-4928-a5f8-02c89451d99d"
+          ],
+          "failures": [
+            "36c296ab-9295-47b0-b271-1f4e49947cc2"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 1015,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "e7f0abcc-b58a-464f-85af-34145c477e88",
+          "title": "Frontend Tests",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\backend-api.test.js",
+          "file": "\\tests\\e2e\\backend-api.test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Frontend server is running and accessible",
+              "fullTitle": "Frontend Tests Frontend server is running and accessible",
+              "timedOut": false,
+              "duration": 32,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(FRONTEND_URL);\n  expect([200, 304]).to.include(response.status);\n  console.log('✅ Frontend is accessible at', FRONTEND_URL);\n} catch (error) {\n  if (error.code === 'ECONNREFUSED') {\n    throw new Error(`❌ Frontend not running at ${FRONTEND_URL}. Please start npm start.`);\n  }\n  throw error;\n}",
+              "err": {},
+              "uuid": "bf77d93a-c9e5-44e5-ae69-5d85d3371663",
+              "parentUUID": "e7f0abcc-b58a-464f-85af-34145c477e88",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bf77d93a-c9e5-44e5-ae69-5d85d3371663"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 32,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 30000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.4"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "api-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports",
+        "reportFilename": "api-report"
+      },
+      "version": "6.3.0"
+    }
+  }
+}

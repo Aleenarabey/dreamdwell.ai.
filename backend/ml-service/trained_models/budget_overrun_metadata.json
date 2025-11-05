@@ -1,0 +1,14 @@
+{
+  "features": [
+    "project_budget",
+    "current_spent",
+    "progress_percentage",
+    "days_elapsed",
+    "project_duration"
+  ],
+  "mse": 5813655.765109815,
+  "r2_score": NaN,
+  "mae": 2411.152372851997,
+  "trained_at": "2025-10-30T07:22:43.730912",
+  "training_samples": 4
+}

@@ -1,8 +1,10 @@
 import express from 'express';
+import bcrypt from 'bcryptjs';
 import Project from '../models/Project.js';
 import Material from '../models/Material.js';
 import User from '../models/User.js';
 import Quotation from '../models/Quotation.js';
+import Expense from '../models/Expense.js';
 
 const router = express.Router();
 
@@ -42,24 +44,88 @@ router.get('/dashboard-stats', async (req, res) => {
       .limit(5)
       .select('name clientName status budget createdAt');
     
-    // Calculate expenses from materials used in projects
+    // Calculate expenses from materials and labors used in projects
     const projects = await Project.find({
       $or: [{ isDraft: { $exists: false } }, { isDraft: false }]
-    }).populate('materials.material');
-    let totalExpenses = 0;
+    })
+    .populate('materials.material')
+    .populate('labors.labor');
+    
+    // Calculate material expenses from projects
+    let materialExpensesFromProjects = 0;
+    let laborExpensesFromProjects = 0;
+    let totalExpensesFromProjects = 0;
     
     projects.forEach(project => {
+      // Calculate material costs
       if (project.materials && project.materials.length > 0) {
         project.materials.forEach(item => {
           if (item.material && item.material.unitPrice) {
-            totalExpenses += item.material.unitPrice * (item.quantity || 0);
+            const cost = item.material.unitPrice * (item.quantity || 0);
+            materialExpensesFromProjects += cost;
+            totalExpensesFromProjects += cost;
+          }
+        });
+      }
+      
+      // Calculate labor costs
+      if (project.labors && project.labors.length > 0) {
+        project.labors.forEach(item => {
+          if (item.labor) {
+            // Calculate daily rate (hourlyRate * dailyHours) or use dailyRate if available
+            const dailyRate = item.labor.dailyRate || 
+                            (item.labor.hourlyRate ? item.labor.hourlyRate * (item.labor.dailyHours || 8) : 0);
+            const cost = dailyRate * (item.days || 0);
+            laborExpensesFromProjects += cost;
+            totalExpensesFromProjects += cost;
           }
         });
       }
     });
 
+    // Calculate Material Expenses from Expense model
+    const materialExpensesResult = await Expense.aggregate([
+      { 
+        $match: { 
+          type: "material"
+        } 
+      },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+    const materialExpensesFromExpense = materialExpensesResult[0]?.total || 0;
+
+    // Calculate Labor Expenses (Wages) from Expense model
+    const laborExpensesResult = await Expense.aggregate([
+      { 
+        $match: { 
+          type: "labor"
+        } 
+      },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+    const laborExpensesFromExpense = laborExpensesResult[0]?.total || 0;
+
+    // Use Expense model if it has data, otherwise use project calculations for real-time values
+    // This ensures we always show real values from project materials and labors
+    const materialExpenses = materialExpensesFromExpense > 0 
+      ? materialExpensesFromExpense 
+      : materialExpensesFromProjects;
+    const laborExpenses = laborExpensesFromExpense > 0 
+      ? laborExpensesFromExpense 
+      : laborExpensesFromProjects;
+
+    // Use Expense model total if available, otherwise use project calculations
+    const totalExpensesFromExpenseAgg = await Expense.aggregate([
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+    const totalExpensesFromExpense = totalExpensesFromExpenseAgg[0]?.total || 0;
+    // Prefer Expense total, but if it's 0, use project calculations
+    const totalExpensesAmount = totalExpensesFromExpense > 0 
+      ? totalExpensesFromExpense 
+      : totalExpensesFromProjects;
+
     // Calculate profit
-    const profit = totalRevenue - totalExpenses;
+    const profit = totalRevenue - totalExpensesAmount;
 
     // Get low stock materials
     const lowStockMaterials = await Material.find({
@@ -71,7 +137,7 @@ router.get('/dashboard-stats', async (req, res) => {
       $or: [{ isDraft: { $exists: false } }, { isDraft: false }]
     });
     const totalBudget = allProjects.reduce((sum, p) => sum + (parseFloat(p.budget) || 0), 0);
-    const consumedBudget = totalExpenses;
+    const consumedBudget = totalExpensesAmount;
     const remainingBudget = totalBudget - consumedBudget;
     const consumptionPercentage = totalBudget > 0 ? (consumedBudget / totalBudget) * 100 : 0;
 
@@ -96,7 +162,7 @@ router.get('/dashboard-stats', async (req, res) => {
     // Get financial overview data
     const financialOverview = [
       { name: 'Revenue', value: totalRevenue, color: '#10B981' },
-      { name: 'Expenses', value: totalExpenses, color: '#EF4444' },
+      { name: 'Expenses', value: totalExpensesAmount, color: '#EF4444' },
       { name: 'Profit', value: profit, color: '#3B82F6' }
     ];
 
@@ -121,7 +187,9 @@ router.get('/dashboard-stats', async (req, res) => {
         },
         financial: {
           revenue: totalRevenue,
-          expenses: totalExpenses,
+          expenses: totalExpensesAmount,
+          materialExpenses: materialExpenses,
+          laborExpenses: laborExpenses,
           profit: profit
         },
         lowStockAlerts: lowStockMaterials.map(m => ({
@@ -195,6 +263,67 @@ router.get('/users', async (req, res) => {
       message: 'Error fetching users',
       error: error.message 
     });
+  }
+});
+
+// Create Engineer
+router.post('/create-engineer', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
+
+    // Validate password
+    if (!password || password.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long" });
+    }
+
+    // Validate name
+    if (!name || name.trim().length < 2) {
+      return res.status(400).json({ message: "Name must be at least 2 characters long" });
+    }
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // Split name into first and last name
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || nameParts[0];
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create engineer user
+    const newEngineer = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role: 'engineer',
+    });
+
+    await newEngineer.save();
+
+    res.status(201).json({ 
+      message: "Engineer created successfully",
+      engineer: {
+        id: newEngineer._id,
+        name: `${firstName} ${lastName}`,
+        email: newEngineer.email,
+        role: newEngineer.role
+      }
+    });
+  } catch (err) {
+    console.error('Error creating engineer:', err);
+    res.status(500).json({ message: "Server error during engineer creation" });
   }
 });
 

@@ -1,0 +1,386 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 5,
+    "passes": 4,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-10-30T22:53:10.043Z",
+    "end": "2025-10-30T22:55:11.229Z",
+    "duration": 121186,
+    "testsRegistered": 8,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 2,
+    "hasOther": true,
+    "skipped": 3,
+    "hasSkipped": true
+  },
+  "results": [
+    {
+      "uuid": "3139db82-5772-42f6-bbdf-71463a5f771c",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "6d828966-4f09-48fb-9f01-db0990b6ac74",
+          "title": "Backend API Tests",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\backend-api.test.js",
+          "file": "\\tests\\e2e\\backend-api.test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Backend server is running and accessible",
+              "fullTitle": "Backend API Tests Backend server is running and accessible",
+              "timedOut": false,
+              "duration": 328,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/finance/overview`);\n  expect(response.status).to.equal(200);\n  console.log('✅ Backend is accessible at', BACKEND_URL);\n} catch (error) {\n  if (error.code === 'ECONNREFUSED') {\n    throw new Error(`❌ Backend not running at ${BACKEND_URL}. Please start the backend server.`);\n  }\n  // 200 or 500 is fine, means server is up\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Backend is accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "c9a669dc-7b89-40a8-bdbf-f766524ccc7a",
+              "parentUUID": "6d828966-4f09-48fb-9f01-db0990b6ac74",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Workers API endpoint is accessible",
+              "fullTitle": "Backend API Tests Workers API endpoint is accessible",
+              "timedOut": false,
+              "duration": 88,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/workers`);\n  expect([200, 500]).to.include(response.status);\n  console.log('✅ Workers API accessible');\n} catch (error) {\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Workers API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "39a4993a-e41e-42b7-aa0a-6d3645408e86",
+              "parentUUID": "6d828966-4f09-48fb-9f01-db0990b6ac74",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Suppliers API endpoint is accessible",
+              "fullTitle": "Backend API Tests Suppliers API endpoint is accessible",
+              "timedOut": false,
+              "duration": 47,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/suppliers`);\n  expect([200, 500]).to.include(response.status);\n  console.log('✅ Suppliers API accessible');\n} catch (error) {\n  expect([200, 500]).to.include(error.response?.status || 0);\n  console.log('✅ Suppliers API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {},
+              "uuid": "37bb6503-672c-492f-892b-7edcfb808d2f",
+              "parentUUID": "6d828966-4f09-48fb-9f01-db0990b6ac74",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ML Finance status endpoint is accessible",
+              "fullTitle": "Backend API Tests ML Finance status endpoint is accessible",
+              "timedOut": false,
+              "duration": 5,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(`${BACKEND_URL}/api/ml-finance/status`);\n  expect([200, 500, 503]).to.include(response.status);\n  console.log('✅ ML Finance API accessible');\n} catch (error) {\n  expect([200, 500, 503]).to.include(error.response?.status || 0);\n  console.log('✅ ML Finance API accessible (status:', error.response?.status || 'N/A', ')');\n}",
+              "err": {
+                "message": "AssertionError: expected [ 200, 500, 503 ] to include 404",
+                "estack": "AssertionError: expected [ 200, 500, 503 ] to include 404\n    at Context.<anonymous> (tests\\e2e\\backend-api.test.js:53:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": null
+              },
+              "uuid": "1f47d38b-0ac0-41d9-a31c-6cd5e088f320",
+              "parentUUID": "6d828966-4f09-48fb-9f01-db0990b6ac74",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c9a669dc-7b89-40a8-bdbf-f766524ccc7a",
+            "39a4993a-e41e-42b7-aa0a-6d3645408e86",
+            "37bb6503-672c-492f-892b-7edcfb808d2f"
+          ],
+          "failures": [
+            "1f47d38b-0ac0-41d9-a31c-6cd5e088f320"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 468,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "31491de6-ee07-4ce0-8648-c6d17e3427b3",
+          "title": "Frontend Tests",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\backend-api.test.js",
+          "file": "\\tests\\e2e\\backend-api.test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Frontend server is running and accessible",
+              "fullTitle": "Frontend Tests Frontend server is running and accessible",
+              "timedOut": false,
+              "duration": 19,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n  const response = await axios.get(FRONTEND_URL);\n  expect([200, 304]).to.include(response.status);\n  console.log('✅ Frontend is accessible at', FRONTEND_URL);\n} catch (error) {\n  if (error.code === 'ECONNREFUSED') {\n    throw new Error(`❌ Frontend not running at ${FRONTEND_URL}. Please start npm start.`);\n  }\n  throw error;\n}",
+              "err": {},
+              "uuid": "4aa960d3-8046-484f-9b1f-4674ad2712c9",
+              "parentUUID": "31491de6-ee07-4ce0-8648-c6d17e3427b3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4aa960d3-8046-484f-9b1f-4674ad2712c9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 19,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        },
+        {
+          "uuid": "e77dc1ed-c3a4-4a83-a8c1-dde7fdf34e2e",
+          "title": "Finance Management (React + Node)",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\finance.spec.js",
+          "file": "\\tests\\e2e\\finance.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook for \"loads Finance Management and shows KPI cards + People card\"",
+              "fullTitle": "Finance Management (React + Node) \"before all\" hook for \"loads Finance Management and shows KPI cards + People card\"",
+              "timedOut": true,
+              "duration": 60279,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const options = new chrome.Options();\n// options.addArguments('--headless=new');\ndriver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();\nawait driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000, script: 30000 });",
+              "err": {
+                "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\finance.spec.js)",
+                "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\finance.spec.js)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)",
+                "diff": null
+              },
+              "uuid": "cf75edd8-375c-4270-9e8f-9d77aa116a62",
+              "parentUUID": "e77dc1ed-c3a4-4a83-a8c1-dde7fdf34e2e",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Finance Management (React + Node)\"",
+              "fullTitle": "Finance Management (React + Node) \"after all\" hook in \"Finance Management (React + Node)\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (driver) await driver.quit();",
+              "err": {},
+              "uuid": "a7400ead-a566-4713-9322-5b5f45de8a6d",
+              "parentUUID": "e77dc1ed-c3a4-4a83-a8c1-dde7fdf34e2e",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "loads Finance Management and shows KPI cards + People card",
+              "fullTitle": "Finance Management (React + Node) loads Finance Management and shows KPI cards + People card",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.get(APP_URL);\nawait driver.wait(until.elementLocated(By.xpath(\"//*[contains(., 'Finance Management')]\")), 20000);\nconst totalBudget = await driver.findElements(By.xpath(\"//*[normalize-space()='Total Budget']\"));\nconst materialExpenses = await driver.findElements(By.xpath(\"//*[normalize-space()='Material Expenses']\"));\nconst laborWages = await driver.findElements(By.xpath(\"//*[normalize-space()='Labor Wages']\"));\nconst netProfit = await driver.findElements(By.xpath(\"//*[normalize-space()='Net Profit/Loss']\"));\nexpect(totalBudget.length, 'Total Budget card missing').to.be.greaterThan(0);\nexpect(materialExpenses.length, 'Material Expenses card missing').to.be.greaterThan(0);\nexpect(laborWages.length, 'Labor Wages card missing').to.be.greaterThan(0);\nexpect(netProfit.length, 'Net Profit/Loss card missing').to.be.greaterThan(0);\nconst peopleCard = await driver.findElements(By.xpath(\"//*[normalize-space()='People']\"));\nexpect(peopleCard.length, 'People card missing').to.be.greaterThan(0);",
+              "err": {},
+              "uuid": "9bbdb09e-7e44-45ef-9cbd-7b4153c5e89a",
+              "parentUUID": "e77dc1ed-c3a4-4a83-a8c1-dde7fdf34e2e",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "toggles Filters and shows Projects dropdown if available",
+              "fullTitle": "Finance Management (React + Node) toggles Filters and shows Projects dropdown if available",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const filtersBtn = await driver.findElement(By.xpath(\"//button[normalize-space()='Filters']\"));\nawait filtersBtn.click();\nconst projectLabel = await driver.findElements(By.xpath(\"//label[contains(., 'Project')]\"));\nexpect(projectLabel.length, 'Project label not found (inside Filters panel)').to.be.greaterThan(0);\n// Close filters to return state\nawait filtersBtn.click();",
+              "err": {},
+              "uuid": "e8bec83b-e909-4c63-b0dc-abd082038427",
+              "parentUUID": "e77dc1ed-c3a4-4a83-a8c1-dde7fdf34e2e",
+              "isHook": false,
+              "skipped": true
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [
+            "9bbdb09e-7e44-45ef-9cbd-7b4153c5e89a",
+            "e8bec83b-e909-4c63-b0dc-abd082038427"
+          ],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        },
+        {
+          "uuid": "808161be-39ac-4d3c-ad54-66cc7fb86acb",
+          "title": "Material Manager (React + Node)",
+          "fullFile": "D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\materials.spec.js",
+          "file": "\\tests\\e2e\\materials.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook for \"renders Supplier Risk Management UI and columns\"",
+              "fullTitle": "Material Manager (React + Node) \"before all\" hook for \"renders Supplier Risk Management UI and columns\"",
+              "timedOut": true,
+              "duration": 60395,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const options = new chrome.Options();\n// options.addArguments('--headless=new');\ndriver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();\nawait driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000, script: 30000 });",
+              "err": {
+                "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\materials.spec.js)",
+                "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (D:\\s3 project\\dreamdwell-extracted more\\dreamdwell\\dreamdwell-ai\\tests\\e2e\\materials.spec.js)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)",
+                "diff": null
+              },
+              "uuid": "a4003851-5611-415a-9367-20785d2b5e44",
+              "parentUUID": "808161be-39ac-4d3c-ad54-66cc7fb86acb",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Material Manager (React + Node)\"",
+              "fullTitle": "Material Manager (React + Node) \"after all\" hook in \"Material Manager (React + Node)\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (driver) await driver.quit();",
+              "err": {},
+              "uuid": "17ba6d35-d5be-4961-821a-4132fc23cd0e",
+              "parentUUID": "808161be-39ac-4d3c-ad54-66cc7fb86acb",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "renders Supplier Risk Management UI and columns",
+              "fullTitle": "Material Manager (React + Node) renders Supplier Risk Management UI and columns",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.get(APP_URL);\n// If page needs navigation, insert a click here to open Materials page\nawait driver.wait(until.elementLocated(By.xpath(\"//*[contains(., 'Supplier Risk Management (ML)')]\")), 20000);\nconst header = await driver.findElements(By.xpath(\"//*[normalize-space()='1. Label Suppliers for Training']\"));\nexpect(header.length).to.be.greaterThan(0);\nconst headerCells = await driver.findElements(By.xpath(\"//table//thead//th\"));\nexpect(headerCells.length, 'Supplier table header should have columns').to.be.greaterThan(0);",
+              "err": {},
+              "uuid": "fa72579c-c9f0-46cc-b604-9d8111ccdb7f",
+              "parentUUID": "808161be-39ac-4d3c-ad54-66cc7fb86acb",
+              "isHook": false,
+              "skipped": true
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [
+            "fa72579c-c9f0-46cc-b604-9d8111ccdb7f"
+          ],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.4"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": true,
+        "reportFilename": "selenium-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports",
+        "reportFilename": "selenium-report",
+        "quiet": "true"
+      },
+      "version": "6.3.0"
+    }
+  }
+}

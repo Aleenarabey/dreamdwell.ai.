@@ -1510,15 +1510,15 @@ const InteriorDesignDashboard = () => {
       
       // Block admins - redirect to admin dashboard
       if (userRole === "admin") {
-        console.log("🚫 FORBIDDEN: Admin attempted to access interior dashboard. Redirecting to /admin-dashboard");
-        navigate("/admin-dashboard", { replace: true });
+        console.log("🚫 FORBIDDEN: Admin attempted to access interior dashboard. FORCING redirect to /admin-dashboard");
+        window.location.replace("/admin-dashboard");
         return null;
       }
       
       // Block customers - redirect to customer dashboard
       if (userRole === "customer") {
-        console.log("🚫 FORBIDDEN: Customer attempted to access interior dashboard. Redirecting to /customer-dashboard");
-        navigate("/customer-dashboard", { replace: true });
+        console.log("🚫 FORBIDDEN: Customer attempted to access interior dashboard. FORCING redirect to /customer-dashboard");
+        window.location.replace("/customer-dashboard");
         return null;
       }
       
@@ -1546,14 +1546,14 @@ const InteriorDesignDashboard = () => {
     }
     
     if (userRole === "admin") {
-      console.log("🚫 FORBIDDEN: Admin detected via auth context. Redirecting to /admin-dashboard");
-      navigate("/admin-dashboard", { replace: true });
+      console.log("🚫 FORBIDDEN: Admin detected via auth context. FORCING redirect to /admin-dashboard");
+      window.location.replace("/admin-dashboard");
       return null;
     }
     
     if (userRole === "customer") {
-      console.log("🚫 FORBIDDEN: Customer detected via auth context. Redirecting to /customer-dashboard");
-      navigate("/customer-dashboard", { replace: true });
+      console.log("🚫 FORBIDDEN: Customer detected via auth context. FORCING redirect to /customer-dashboard");
+      window.location.replace("/customer-dashboard");
       return null;
     }
     
@@ -2474,7 +2474,11 @@ const InteriorDesignDashboard = () => {
               })();
               
               if (storedUser) {
-                const displayName = [storedUser.firstName, storedUser.lastName].filter(Boolean).join(" ") || storedUser.email;
+                // For interior designers, prioritize designerName, then name, then firstName/lastName, then email
+                const displayName = storedUser.designerName || 
+                                  storedUser.name || 
+                                  [storedUser.firstName, storedUser.lastName].filter(Boolean).join(" ") || 
+                                  storedUser.email;
                 const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
                 
                 return (

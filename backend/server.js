@@ -22,6 +22,7 @@ import attendanceRoutes from "./routes/attendanceRoutes.js";
 import workerRoutes from "./routes/workerRoutes.js";
 import financeRoutes from "./routes/financeRoutes.js";
 import engineerRoutes from "./routes/engineerRoutes.js";
+import mlFinanceRoutes from "./routes/mlFinanceRoutes.js";
 
 import FloorPlan from "./models/floorplan.model.js";
 import upload from "./middleware/multerImageUpload.js";
@@ -240,6 +241,7 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/workers", workerRoutes);
 app.use("/api/finance", financeRoutes);
 app.use("/api/engineer", engineerRoutes);
+app.use("/api/ml-finance", mlFinanceRoutes);
 
 
 // ========== DATABASE CONNECTION ==========

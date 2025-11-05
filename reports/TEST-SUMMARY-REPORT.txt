@@ -1,0 +1,92 @@
+
+================================================================================
+                    TEST EXECUTION SUMMARY REPORT
+================================================================================
+Generated: 31/10/2025, 4:09:49 am
+
+TEST STATISTICS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Tests Executed: 13
+✅ Passed: 8
+❌ Failed: 2
+Success Rate: 61.5%
+
+================================================================================
+                            PASSED TESTS (8)
+================================================================================
+1. ✅ Backend API Tests Backend server is running and accessible
+   Duration: 358ms
+
+2. ✅ Backend API Tests Workers API endpoint is accessible
+   Duration: 167ms
+
+3. ✅ Backend API Tests Suppliers API endpoint is accessible
+   Duration: 61ms
+
+4. ✅ Frontend Tests Frontend server is running and accessible
+   Duration: 27ms
+
+5. ✅ Backend API Tests Backend server is running and accessible
+   Duration: 794ms
+
+6. ✅ Backend API Tests Workers API endpoint is accessible
+   Duration: 140ms
+
+7. ✅ Backend API Tests Suppliers API endpoint is accessible
+   Duration: 67ms
+
+8. ✅ Frontend Tests Frontend server is running and accessible
+   Duration: 32ms
+
+================================================================================
+                            FAILED TESTS (2)
+================================================================================
+1. ❌ Backend API Tests ML Finance status endpoint is accessible
+   Duration: 10ms
+   Error: AssertionError: expected [ 200, 500, 503 ] to include 404
+
+2. ❌ Backend API Tests ML Finance status endpoint is accessible
+   Duration: 14ms
+   Error: AssertionError: expected [ 200, 500, 503 ] to include 404
+
+================================================================================
+                              DETAILED RESULTS
+================================================================================
+
+BACKEND API TESTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Backend API Tests Backend server is running and accessible
+✅ Backend API Tests Workers API endpoint is accessible
+✅ Backend API Tests Suppliers API endpoint is accessible
+✅ Frontend Tests Frontend server is running and accessible
+✅ Backend API Tests Backend server is running and accessible
+✅ Backend API Tests Workers API endpoint is accessible
+✅ Backend API Tests Suppliers API endpoint is accessible
+✅ Frontend Tests Frontend server is running and accessible
+
+❌ Backend API Tests ML Finance status endpoint is accessible
+   AssertionError: expected [ 200, 500, 503 ] to include 404
+
+❌ Backend API Tests ML Finance status endpoint is accessible
+   AssertionError: expected [ 200, 500, 503 ] to include 404
+
+FRONTEND UI TESTS (Selenium):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+No UI tests passed
+
+
+
+================================================================================
+                              RECOMMENDATIONS
+================================================================================
+1. Review failed tests listed above
+2. Check server logs for detailed error information
+3. Verify all services are running (Backend: port 5000, Frontend: port 3000)
+4. Ensure database connection is active
+5. Check ML service if ML Finance tests failed
+
+================================================================================
+For detailed HTML reports, please check:
+- reports/selenium-report.html
+- reports/api-report.html
+================================================================================

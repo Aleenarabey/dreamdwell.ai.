@@ -233,25 +233,59 @@ export default function AuthPage() {
           return;
         }
 
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
-          email,
-          password,
-        });
+        // Try common auth endpoint first (admin, engineer, customer)
+        let res;
+        let userData;
+        let userRole;
+        
+        try {
+          res = await axios.post("http://localhost:5000/api/auth/login", {
+            email,
+            password,
+          });
+          
+          userData = res.data.user;
+          userRole = userData.role;
+          
+          console.log("🔍 ===== LOGIN RESPONSE (FROM /api/auth/login) =====");
+          console.log("Endpoint: /api/auth/login");
+          console.log("User Role:", userRole);
+          console.log("Full User Data:", userData);
+          console.log("==============================");
+        } catch (authError) {
+          // If user not found in common auth, try interior designer auth
+          if (authError.response?.status === 400 || authError.response?.status === 401) {
+            try {
+              console.log("🔍 User not found in common auth, trying interior designer auth...");
+              res = await axios.post("http://localhost:5000/api/interiorAuth/login", {
+                email,
+                password,
+              });
+              
+              userData = res.data.user;
+              userRole = userData.role || "interiorDesigner";
+              
+              console.log("🔍 ===== LOGIN RESPONSE (FROM /api/interiorAuth/login) =====");
+              console.log("Endpoint: /api/interiorAuth/login");
+              console.log("User Role:", userRole);
+              console.log("Full User Data:", userData);
+              console.log("==============================");
+            } catch (interiorError) {
+              // Both endpoints failed
+              console.error("Login error:", interiorError);
+              alert(interiorError.response?.data?.message || authError.response?.data?.message || "Invalid email or password");
+              return;
+            }
+          } else {
+            // Other error from common auth
+            console.error("Login error:", authError);
+            alert(authError.response?.data?.message || "Invalid email or password");
+            return;
+          }
+        }
 
         // Clear any old/stale localStorage data FIRST to prevent role conflicts
         console.log("🧹 Clearing old localStorage data before saving new login");
-        
-        // Save user data and token FIRST
-        const userData = res.data.user;
-        const userRole = userData.role;
-        
-        console.log("🔍 ===== LOGIN RESPONSE (FROM /api/auth/login) =====");
-        console.log("Endpoint: /api/auth/login");
-        console.log("User Role:", userRole);
-        console.log("Full User Data:", userData);
-        console.log("Token received:", res.data.token ? "YES" : "NO");
-        console.log("Email:", userData.email);
-        console.log("==============================");
         
         // Verify role before saving
         if (!userRole) {
@@ -260,11 +294,6 @@ export default function AuthPage() {
           return;
         }
 
-        // VERIFY role one more time before saving
-        console.log("🔍 PRE-LOGIN CHECK - Role:", userRole, "User object:", userData);
-        if (userRole === "engineer") {
-          console.log("🚨 ENGINEER DETECTED BEFORE LOGIN SAVE - PREVENTING INTERIOR DASHBOARD ACCESS");
-        }
         
         // Clear old localStorage first, then save new data
         localStorage.removeItem('user');
@@ -290,25 +319,27 @@ export default function AuthPage() {
         }
 
         // IMMEDIATE and FORCEFUL redirect based on role - NO DELAYS
-        // Use window.location.replace immediately to prevent any other routes from loading
-        if (userRole === "admin") {
+        // CRITICAL: Engineers MUST go to engineer-dashboard, NEVER to interior-dashboard
+        // Check engineer FIRST to ensure they are never routed incorrectly
+        if (userRole === "engineer") {
+          console.log("✅✅✅ ENGINEER LOGIN CONFIRMED - Redirecting to /engineer-dashboard");
+          console.log("Engineer role verified:", userRole);
+          window.location.replace("/engineer-dashboard"); 
+          return; // Exit immediately - do not proceed to any other checks
+        } else if (userRole === "admin") {
           console.log("✅ Redirecting ADMIN to /admin-dashboard");
           window.location.replace("/admin-dashboard"); // Force redirect with replace (no back button)
           return; // Exit immediately
-        } else if (userRole === "engineer") {
-          // For engineers, FORCE redirect to engineer-dashboard - ABSOLUTELY NO EXCEPTIONS
-          console.log("✅✅✅ ENGINEER LOGIN DETECTED - FORCING IMMEDIATE REDIRECT TO /engineer-dashboard");
-          console.log("Engineer user data:", userData);
-          console.log("Engineer role in localStorage:", JSON.parse(localStorage.getItem('user') || '{}')?.role);
-          // Use window.location.replace for immediate, non-cancellable redirect
-          window.location.replace("/engineer-dashboard"); 
-          return; // Exit immediately to prevent ANY further execution
         } else if (userRole === "customer") {
           console.log("✅ Redirecting CUSTOMER to /customer-dashboard");
           window.location.replace("/customer-dashboard");
           return; // Exit immediately
+        } else if (userRole === "interiorDesigner" || userRole === "interior") {
+          console.log("✅ Redirecting INTERIOR DESIGNER to /interior-dashboard");
+          window.location.replace("/interior-dashboard");
+          return; // Exit immediately
         } else {
-          // Unknown role - this should not happen for users from /api/auth/login
+          // Unknown role
           console.error("⚠️ UNKNOWN ROLE:", userRole, "- Full data:", userData);
           alert(`Unknown user role: ${userRole}. Please contact support.`);
           window.location.replace("/");
@@ -372,18 +403,18 @@ export default function AuthPage() {
             : mode === "signup"
             ? `Create ${role} Account`
             : role === "admin"
-            ? "Admin Login"
+            ? "Login"
             : "Welcome Back"}
         </h2>
-        <p className={`text-gray-600 text-center mb-6 ${role === "admin" ? "text-lg" : "text-sm"}`}>
-          {showRoleSelection
-            ? "Select your role to get started"
-            : mode === "signup"
-            ? `Join our platform as a ${role}`
-            : role === "admin"
-            ? "Enter your admin credentials to continue"
-            : "Log in to continue your journey"}
-        </p>
+        {!(role === "admin" && mode === "login") && (
+          <p className={`text-gray-600 text-center mb-6 ${role === "admin" ? "text-lg" : "text-sm"}`}>
+            {showRoleSelection
+              ? "Select your role to get started"
+              : mode === "signup"
+              ? `Join our platform as a ${role}`
+              : "Log in to continue your journey"}
+          </p>
+        )}
 
         {/* Toggle between signup and login - Hide signup for admin */}
         {!showRoleSelection && role !== "admin" && (
@@ -612,7 +643,7 @@ export default function AuthPage() {
                   type="submit"
                   className={`bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition ${role === "admin" ? "mt-8 py-6 px-20 text-2xl w-4/5" : "w-full py-3"}`}
                 >
-                  {mode === "signup" ? "Sign up" : role === "admin" ? "Admin Login" : "Login"}
+                  {mode === "signup" ? "Sign up" : "Login"}
                 </button>
               </div>
 

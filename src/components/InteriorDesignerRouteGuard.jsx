@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { redirectIfNotInteriorDesigner, checkUserRole } from '../utils/roleCheck';
+import axios from 'axios';
 
 /**
  * Route Guard Component: Ensures ONLY interior designers can access protected routes
@@ -10,66 +10,53 @@ import { redirectIfNotInteriorDesigner, checkUserRole } from '../utils/roleCheck
 export default function InteriorDesignerRouteGuard({ children }) {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
+  const [engineerVerified, setEngineerVerified] = useState(false);
 
-  // IMMEDIATE synchronous check BEFORE any hooks run - using utility function
-  // This runs synchronously on every render, before React even processes hooks
-  const roleImmediate = checkUserRole();
-  console.log("🔍 Route Guard IMMEDIATE check (first line) - Role:", roleImmediate);
-  
-  if (redirectIfNotInteriorDesigner()) {
-    // Redirect was triggered - return null to prevent any rendering
-    return null;
-  }
-  
-  // Additional immediate check with full data
-  const savedUserImmediate = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-  if (savedUserImmediate) {
-    try {
-      const userDataImmediate = JSON.parse(savedUserImmediate);
-      const userRoleImmediate = userDataImmediate?.role;
+  // CRITICAL: All hooks must be called before any conditional returns
+  // CRITICAL: Verify if user is actually an engineer in User model, even if localStorage says interiorDesigner
+  // This catches cases where someone logged in as interior designer but is actually an engineer
+  useLayoutEffect(() => {
+    const verifyEngineerStatus = async () => {
+      const savedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+      if (!savedUser) return;
       
-      console.log("🔍 Route Guard IMMEDIATE check (full data) - Role:", userRoleImmediate, "User data:", userDataImmediate);
-      
-      // Block engineers - IMMEDIATE redirect BEFORE anything renders
-      if (userRoleImmediate === "engineer") {
-        console.log("🚫🚫🚫 Route Guard: Engineer BLOCKED IMMEDIATELY - FORCING redirect");
-        console.log("🚫 Full engineer data:", userDataImmediate);
-        console.log("🚫 Current URL:", window.location.href);
-        // Use window.location.replace for immediate, non-cancellable redirect
-        window.location.replace("/engineer-dashboard");
-        // Also try navigate as backup
-        setTimeout(() => navigate("/engineer-dashboard", { replace: true }), 0);
-        return null; // Don't render anything
+      try {
+        const userData = JSON.parse(savedUser);
+        const email = userData?.email;
+        
+        if (!email) return;
+        
+        // Even if role in localStorage says "interiorDesigner", check if they're actually an engineer
+        try {
+          const response = await axios.get(`http://localhost:5000/api/auth/verify-engineer/${encodeURIComponent(email)}`);
+          if (response.data?.isEngineer === true) {
+            console.log("🚫🚫🚫 VERIFIED: User is ACTUALLY an engineer in User model - FORCING redirect");
+            console.log("Email:", email, "was found as engineer despite localStorage role:", userData?.role);
+            setEngineerVerified(true);
+            // Clear incorrect localStorage data
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            // Force redirect to engineer dashboard
+            window.location.replace("/engineer-dashboard");
+            return;
+          }
+        } catch (verifyError) {
+          // If verification fails (404 means not an engineer, which is fine for interior designers)
+          if (verifyError.response?.status !== 404) {
+            console.log("🔍 Engineer verification check error:", verifyError.response?.status);
+          }
+        }
+      } catch (error) {
+        console.error("Error in engineer verification:", error);
       }
-
-      // Block admins
-      if (userRoleImmediate === "admin") {
-        console.log("🚫 Route Guard: Admin BLOCKED IMMEDIATELY");
-        window.location.replace("/admin-dashboard");
-        return null;
-      }
-
-      // Block customers
-      if (userRoleImmediate === "customer") {
-        console.log("🚫 Route Guard: Customer BLOCKED IMMEDIATELY");
-        window.location.replace("/customer-dashboard");
-        return null;
-      }
-
-      // Only allow interior designers
-      if (userRoleImmediate && userRoleImmediate !== "interiorDesigner" && userRoleImmediate !== "interior") {
-        console.log(`🚫 Route Guard: Role "${userRoleImmediate}" BLOCKED IMMEDIATELY`);
-        window.location.replace("/");
-        return null;
-      }
-    } catch (error) {
-      console.error("Route Guard: Error parsing user data in immediate check:", error);
-    }
-  }
+    };
+    
+    verifyEngineerStatus();
+  }, []);
 
   // useLayoutEffect runs synchronously before paint
   useLayoutEffect(() => {
-    if (authLoading) return; // Wait for auth to load
+    if (authLoading || engineerVerified) return; // Wait for auth to load or if engineer verified
 
     // Check localStorage first (fastest check)
     const savedUser = localStorage.getItem('user');
@@ -181,8 +168,8 @@ export default function InteriorDesignerRouteGuard({ children }) {
     }
   }, [user, authLoading, navigate]);
 
-  // Show nothing while checking or redirecting
-  if (authLoading) {
+  // Show nothing while checking, verifying, or redirecting
+  if (authLoading || engineerVerified) {
     return null;
   }
 

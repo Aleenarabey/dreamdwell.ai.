@@ -336,23 +336,20 @@ export default function InteriorDesignerSignup() {
           }
         }
         
-        // Route based on user role - use setTimeout to ensure state is updated
-        if (res.data?.user?.role === "admin") {
-          setTimeout(() => {
-            navigate("/admin-dashboard");
-          }, 100);
-        } else if (res.data?.user?.role === "engineer") {
-          // Engineers should not use this route, redirect to proper auth
-          alert("Engineers should use the Engineer login page");
-          setTimeout(() => {
-            navigate("/auth");
-          }, 100);
+        // Route based on user role - redirect immediately based on role
+        const userRole = res.data?.user?.role;
+        
+        if (userRole === "admin") {
+          window.location.replace("/admin-dashboard");
+          return;
+        } else if (userRole === "engineer") {
+          // Redirect engineers to their dashboard without alert
+          window.location.replace("/engineer-dashboard");
           return;
         } else {
-          // Only interior designers go to interior-dashboard
-          setTimeout(() => {
-            navigate("/interior-dashboard");
-          }, 100);
+          // Interior designers go to interior-dashboard
+          window.location.replace("/interior-dashboard");
+          return;
         }
       }
     } catch (err) {
@@ -385,25 +382,21 @@ export default function InteriorDesignerSignup() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // Route based on user role - use setTimeout to ensure state is updated
-      if (res.data?.user?.role === "admin") {
-        // For admin, redirect to dashboard without alert
-        setTimeout(() => {
-          navigate("/admin-dashboard");
-        }, 100);
-      } else if (res.data?.user?.role === "engineer") {
-        // Engineers should not use this route, redirect to proper auth
-        alert("Engineers should use the Engineer login page");
-        setTimeout(() => {
-          navigate("/auth");
-        }, 100);
+      // Route based on user role - redirect immediately based on role
+      const userRole = res.data?.user?.role;
+      
+      if (userRole === "admin") {
+        window.location.replace("/admin-dashboard");
+        return;
+      } else if (userRole === "engineer") {
+        // Redirect engineers to their dashboard without alert
+        window.location.replace("/engineer-dashboard");
         return;
       } else {
-        // For other users (interior designers), show alert and redirect
+        // Interior designers go to interior-dashboard
         alert(res.data.message || "Google login successful!");
-        setTimeout(() => {
-          navigate("/interior-dashboard");
-        }, 100);
+        window.location.replace("/interior-dashboard");
+        return;
       }
     } catch (err) {
       console.error("Google login error:", err);

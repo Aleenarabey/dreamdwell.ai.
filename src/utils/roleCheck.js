@@ -1,7 +1,3 @@
-/**
- * Utility function to check user role from localStorage
- * This runs synchronously and can be called before any React components mount
- */
 export const checkUserRole = () => {
   if (typeof window === 'undefined') return null;
   

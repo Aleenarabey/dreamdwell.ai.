@@ -916,63 +916,68 @@ export default function WorkersManagement() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <header className="bg-white border-b border-gray-200 px-6 py-5 sticky top-0 z-20 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
+      <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4 sm:py-5 sticky top-0 z-20 shadow-sm">
+        <div className="flex flex-col gap-4 mb-4">
+          {/* Title Row */}
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => navigate("/admin-dashboard")}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
             >
               <ArrowLeft size={20} className="text-gray-600" />
             </button>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-                <Users className="text-blue-600" size={32} />
-                Labor & Workforce Management
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 flex items-center gap-2 sm:gap-3">
+                <Users className="text-blue-600 flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8" />
+                <span className="truncate">Labor & Workforce Management</span>
               </h1>
               <div className="flex items-center gap-2 mt-1">
-              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-              <span className="text-xs text-gray-500">
-                {isConnected ? 'Live' : 'Offline'}
-              </span>
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                <span className="text-xs text-gray-500 whitespace-nowrap">
+                  {isConnected ? 'Live' : 'Offline'}
+                </span>
                 <span className="text-xs text-gray-400">•</span>
-                <span className="text-xs text-gray-500">{filteredWorkers.length} Workers</span>
+                <span className="text-xs text-gray-500 whitespace-nowrap">{filteredWorkers.length} Workers</span>
               </div>
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          {/* Actions Row */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            {/* Export Buttons */}
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => handleExportReport("Excel")}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap"
+                title="Export Excel"
               >
                 <FileSpreadsheet size={18} />
-                <span className="hidden md:inline">Export Excel</span>
+                <span className="hidden sm:inline">Export Excel</span>
               </button>
-          </div>
-            <div className="relative">
               <button
                 onClick={() => handleExportReport("PDF")}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap"
+                title="Export PDF"
               >
                 <FileDown size={18} />
-                <span className="hidden md:inline">Export PDF</span>
+                <span className="hidden sm:inline">Export PDF</span>
               </button>
             </div>
-              <button
+            
+            {/* Add Worker Button - Always visible on new line if needed */}
+            <button
               onClick={() => {
                 resetWorkerForm();
                 setShowAddModal(true);
               }}
-              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md"
-              >
-                <Plus size={18} />
-              Add New Worker
-              </button>
+              className="flex items-center gap-2 bg-blue-600 text-white px-4 sm:px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md whitespace-nowrap ml-auto sm:ml-0"
+            >
+              <Plus size={18} />
+              <span className="hidden sm:inline">Add New Worker</span>
+              <span className="sm:hidden">Add Worker</span>
+            </button>
           </div>
-            </div>
+        </div>
             
         {/* Search & Filter */}
         <div className="flex items-center gap-4 flex-wrap">

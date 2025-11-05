@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Execution Report - 2025-11-05 07:56:05</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        .content {
+            padding: 30px;
+        }
+        .test-section {
+            margin-bottom: 40px;
+        }
+        .test-section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .step-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .step-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .step-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .screenshot-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .screenshot-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .screenshot-caption {
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        .screenshot-caption h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .screenshot-caption p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .timestamp {
+            color: #999;
+            font-size: 0.85em;
+        }
+        .no-screenshots {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.2em;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        .success-badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .test-log {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        .test-log .success {
+            color: #2ecc71;
+        }
+        .test-log .warning {
+            color: #f39c12;
+        }
+        .test-log .error {
+            color: #e74c3c;
+        }
+        .test-log .info {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Test Execution Report</h1>
+            <p>Generated: 2025-11-05 07:56:05</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>22</h3>
+                <p>Total Screenshots</p>
+            </div>
+            <div class="stat-card">
+                <h3>11</h3>
+                <p>Test Steps</p>
+            </div>
+            <div class="stat-card">
+                <h3>3</h3>
+                <p>Test Results</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="success-badge">PASSED</h3>
+                <p>Test Status</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            
+            <div class="test-section">
+                <h2>📝 Signup Test Execution</h2>
+                <div class="step-info">
+                    <h3>Step 1: Navigation to Register Page</h3>
+                    <p>✓ Successfully navigated to Register page</p>
+                    <p class="timestamp">Initial page load and navigation</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_register_page_20251104_210745.png" alt="01_register_page_20251104_210745.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_register_page_20251104_210745.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:07:45</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_register_page_20251104_211132.png" alt="01_register_page_20251104_211132.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_register_page_20251104_211132.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:11:32</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_register_page_20251104_212125.png" alt="01_register_page_20251104_212125.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_register_page_20251104_212125.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:21:26</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>Step 2: Role Selection</h3>
+                    <p>✓ Selected Engineer/Customer role</p>
+                    <p>✓ Signup form displayed</p>
+                    <p class="timestamp">Role selection and form display</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_role_selected_20251104_210750.png" alt="02_role_selected_20251104_210750.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_role_selected_20251104_210750.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:07:50</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_role_selected_20251104_211136.png" alt="02_role_selected_20251104_211136.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_role_selected_20251104_211136.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:11:36</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_role_selected_20251104_212130.png" alt="02_role_selected_20251104_212130.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_role_selected_20251104_212130.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:21:30</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>Step 3: Form Filling</h3>
+                    <p>✓ Entered first name: John</p>
+                    <p>✓ Entered last name: Doe</p>
+                    <p>✓ Entered email: engineer***@test.com</p>
+                    <p>✓ Entered password</p>
+                    <p>✓ Entered confirm password</p>
+                    <p class="timestamp">Form data entry</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_form_filled_20251104_210753.png" alt="02_form_filled_20251104_210753.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_form_filled_20251104_210753.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:07:54</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_form_filled_20251104_211140.png" alt="02_form_filled_20251104_211140.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_form_filled_20251104_211140.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:11:40</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_form_filled_20251104_212133.png" alt="02_form_filled_20251104_212133.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_form_filled_20251104_212133.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:21:34</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>Step 4: Registration Result</h3>
+                    <p>✓ Registration successful - Form switched to login mode</p>
+                    <p class="timestamp">Final verification</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\03_registration_result_20251104_210758.png" alt="03_registration_result_20251104_210758.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>03_registration_result_20251104_210758.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:07:58</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\03_registration_result_20251104_211144.png" alt="03_registration_result_20251104_211144.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>03_registration_result_20251104_211144.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:11:44</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\03_registration_result_20251104_212138.png" alt="03_registration_result_20251104_212138.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>03_registration_result_20251104_212138.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:21:38</p>
+            </div>
+        </div>
+        </div>
+            </div>
+    
+            
+            <div class="test-section">
+                <h2>🔐 Login Test Execution</h2>
+                <div class="step-info">
+                    <h3>Step 1: Navigation to Login Page</h3>
+                    <p>✓ Successfully navigated to Login page</p>
+                    <p class="timestamp">Initial page load and navigation</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>Step 2: Entering Credentials</h3>
+                    <p>✓ Entered email: engineer@test.com</p>
+                    <p>✓ Entered password</p>
+                    <p class="timestamp">Credential input</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>Step 3: Login Result</h3>
+                    <p>✓ Login successful - Redirected to Dashboard</p>
+                    <p class="timestamp">Final verification</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+            </div>
+    
+            
+            <div class="test-section">
+                <h2>📦 Material Management CRUD Tests</h2>
+                
+                <div class="step-info">
+                    <h3>Step 1: Admin Login</h3>
+                    <p>✓ Logged in as admin successfully</p>
+                    <p class="timestamp">Admin authentication</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075239.png" alt="01_logged_in_20251105_075239.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075239.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:52:39</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075324.png" alt="01_logged_in_20251105_075324.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075324.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:53:24</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075523.png" alt="01_logged_in_20251105_075523.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075523.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:55:23</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>Step 2: Navigate to Materials Page</h3>
+                    <p>✓ Navigated to Materials Management page</p>
+                    <p class="timestamp">Page navigation</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_materials_page_20251104_221632.png" alt="02_materials_page_20251104_221632.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_materials_page_20251104_221632.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 22:16:32</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>CREATE Test: Add Material</h3>
+                    <p>✓ Clicked Add Material button</p>
+                    <p>✓ Add Material modal opened</p>
+                    <p>✓ Filled material form (name, unit, price, stock, etc.)</p>
+                    <p>✓ Material created successfully</p>
+                    <p class="timestamp">Material creation</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>READ Test: View Materials</h3>
+                    <p>✓ Materials list displayed</p>
+                    <p>✓ Material details visible</p>
+                    <p class="timestamp">Material list view</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\03_materials_read_20251104_221713.png" alt="03_materials_read_20251104_221713.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>03_materials_read_20251104_221713.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 22:17:13</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>UPDATE Test: Edit Material</h3>
+                    <p>✓ Clicked Edit button</p>
+                    <p>✓ Edit Material modal opened</p>
+                    <p>✓ Updated material details</p>
+                    <p>✓ Material updated successfully</p>
+                    <p class="timestamp">Material update</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>DELETE Test: Remove Material</h3>
+                    <p>✓ Clicked Delete button</p>
+                    <p>✓ Confirmed deletion</p>
+                    <p>✓ Material deleted successfully</p>
+                    <p class="timestamp">Material deletion</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+            </div>
+    
+            
+            <div class="test-section">
+                <h2>📋 Project Management CRUD Tests</h2>
+                
+                <div class="step-info">
+                    <h3>Step 1: Admin Login</h3>
+                    <p>✓ Logged in as admin successfully</p>
+                    <p class="timestamp">Admin authentication</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075239.png" alt="01_logged_in_20251105_075239.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075239.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:52:39</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075324.png" alt="01_logged_in_20251105_075324.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075324.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:53:24</p>
+            </div>
+        </div>
+        
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\01_logged_in_20251105_075523.png" alt="01_logged_in_20251105_075523.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>01_logged_in_20251105_075523.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:55:23</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>Step 2: Navigate to Projects Page</h3>
+                    <p>✓ Navigated to Project Management page</p>
+                    <p class="timestamp">Page navigation</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\02_projects_page_20251105_075540.png" alt="02_projects_page_20251105_075540.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>02_projects_page_20251105_075540.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:55:40</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>CREATE Test: Create Project</h3>
+                    <p>✓ Clicked Create Project button</p>
+                    <p>✓ Create Project modal opened</p>
+                    <p>✓ Filled project form (name, client, dates, budget, address)</p>
+                    <p>✓ Project created successfully</p>
+                    <p class="timestamp">Project creation</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>READ Test: View Projects</h3>
+                    <p>✓ Projects list displayed</p>
+                    <p>✓ Project details visible</p>
+                    <p class="timestamp">Project list view</p>
+                </div>
+                <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\03_projects_read_20251105_075602.png" alt="03_projects_read_20251105_075602.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>03_projects_read_20251105_075602.png</h4>
+                <p class="timestamp">Captured: 2025-11-05 07:56:02</p>
+            </div>
+        </div>
+        </div>
+                
+                <div class="step-info">
+                    <h3>UPDATE Test: Edit Project</h3>
+                    <p>✓ Clicked Edit button</p>
+                    <p>✓ Edit Project modal opened</p>
+                    <p>✓ Updated project details (budget, status)</p>
+                    <p>✓ Project updated successfully</p>
+                    <p class="timestamp">Project update</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+                
+                <div class="step-info">
+                    <h3>DELETE Test: Remove Project</h3>
+                    <p>✓ Clicked Delete button</p>
+                    <p>✓ Confirmed deletion</p>
+                    <p>✓ Project deleted successfully</p>
+                    <p class="timestamp">Project deletion</p>
+                </div>
+                <div class="no-screenshots">No screenshots available for this step</div>
+            </div>
+    
+            
+        <div class="test-section">
+            <h2>⚠️ Warnings & Errors</h2>
+            <div class="screenshot-grid">
+        <div class="screenshot-item">
+            <img src="..\selenium-tests\screenshots\validation_errors_20251104_213713.png" alt="validation_errors_20251104_213713.png" loading="lazy">
+            <div class="screenshot-caption">
+                <h4>validation_errors_20251104_213713.png</h4>
+                <p class="timestamp">Captured: 2025-11-04 21:37:13</p>
+            </div>
+        </div>
+        </div>
+        </div>
+        
+            
+            <div class="test-section">
+                <h2>📋 Test Execution Log</h2>
+                <div class="test-log">
+
+=== Starting Material Management CRUD Tests ===
+
+--- CREATE Material Test ---
+Step 1: Logging in as admin...
+✓ Logged in as admin successfully
+Screenshot saved: selenium-tests/screenshots/01_logged_in_*.png
+
+Step 2: Navigating to Materials Management page...
+✓ Navigated to Materials Management page
+Screenshot saved: selenium-tests/screenshots/02_materials_page_*.png
+
+Step 3: Clicking Add Material button...
+✓ Clicked Add Material button
+✓ Add Material modal opened
+Screenshot saved: selenium-tests/screenshots/03_add_modal_opened_*.png
+
+Step 4: Filling material form...
+✓ Entered material name: Test Material ***
+✓ Selected unit: bag
+✓ Entered unit price: 500
+✓ Entered stock: 100
+✓ Entered reorder level: 20
+Screenshot saved: selenium-tests/screenshots/04_form_filled_*.png
+
+Step 5: Submitting material form...
+✓ Clicked Add Material button
+
+Step 6: Verifying material creation...
+✓ Material created successfully
+Screenshot saved: selenium-tests/screenshots/05_material_created_*.png
+
+=== Create Material Test PASSED ===
+
+--- READ Materials Test ---
+Step 1: Verifying Materials Management page...
+✓ Successfully on Materials Management page
+
+Step 2: Verifying materials list...
+✓ Materials list displayed
+
+Step 3: Verifying material details visibility...
+✓ Material details visible: name, price, stock, unit
+Screenshot saved: selenium-tests/screenshots/03_materials_read_*.png
+
+=== Read Materials Test PASSED ===
+
+--- UPDATE Material Test ---
+Step 1: Finding material to edit...
+✓ Clicked Edit button
+✓ Edit Material modal opened
+Screenshot saved: selenium-tests/screenshots/04_edit_modal_opened_*.png
+
+Step 2: Updating material details...
+✓ Updated stock to: 150
+✓ Updated unit price to: 600
+
+Step 3: Submitting update...
+✓ Clicked Update button
+
+Step 4: Verifying material update...
+✓ Material updated successfully
+Screenshot saved: selenium-tests/screenshots/06_material_updated_*.png
+
+=== Update Material Test PASSED ===
+
+--- DELETE Material Test ---
+Step 1: Finding material to delete...
+✓ Clicked Delete button
+
+Step 2: Confirming deletion...
+✓ Confirmation dialog appeared
+✓ Confirmed deletion
+Screenshot saved: selenium-tests/screenshots/05_deletion_confirmed_*.png
+
+Step 3: Verifying material deletion...
+✓ Material deleted successfully
+Screenshot saved: selenium-tests/screenshots/06_material_deleted_*.png
+
+=== Delete Material Test PASSED ===
+
+                </div>
+            </div>
+    
+        </div>
+        
+        <div class="footer">
+            <p>Report generated automatically by Selenium Test Framework</p>
+            <p>All screenshots are stored in: selenium-tests/screenshots/</p>
+        </div>
+    </div>
+</body>
+</html>
